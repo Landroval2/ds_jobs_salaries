@@ -55,9 +55,9 @@ alpha = []
 error = []
 
 for i in range(1, 100):
-    alpha.append(i/10)
-    lml = Lasso(alpha=1/1000)
-    error.append(np.mean(cross_val_score(lml, X, y, scoring='neg_mean_absolute_error', cv=5)))
+    alpha.append(2*i/100)
+    lml = Lasso(alpha=2*i/100)
+    error.append(np.mean(cross_val_score(lml, X, y, scoring='neg_mean_absolute_error', cv=3)))
 
 plt.plot(alpha, error)
 plt.show()
