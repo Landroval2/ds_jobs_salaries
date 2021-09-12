@@ -6,7 +6,9 @@ import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Lasso
 from sklearn.model_selection import cross_val_score
-
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import GridSearchCV
+from sklearn import svm, datasets
 
 df = pd.read_csv('job_data_cleaned.csv')
 
@@ -61,6 +63,25 @@ for i in range(1, 100):
 
 plt.plot(alpha, error)
 plt.show()
+err = tuple(zip(alpha, error))
+df_err = pd.DataFrame(err, columns=['alpha', 'error'])
+best_alpha = df_err.iloc[df_err['error'].idxmax()].alpha
+print(best_alpha)
+
+lml = Lasso(alpha=2*i/100)
+lowest_error = (np.mean(cross_val_score(lml, X, y, scoring='neg_mean_absolute_error', cv=3)))
+print(lowest_error)
+
 # Random forest
+regr = RandomForestRegressor()
+error = (np.mean(cross_val_score(regr, X, y, scoring='neg_mean_absolute_error', cv=3)))
+print(error)
+
 # Tune models using GridSearchCV
+parameters = {'n_estimators':range(10, 300, 10), 'criterion':('mse', 'mae'), 'max_features':('auto', 'sqrt', 'log2')}
+gs = GridSearchCV(estimator=regr,
+             param_grid=parameters, scoring='neg_mean_absolute_error', cv=3)
+gs.fit(X_train, y_train)
+sorted(regr.cv_results_.keys())
+
 # Test ensembles
