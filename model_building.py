@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
+import pickle
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Lasso
@@ -9,6 +10,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
 from sklearn import svm, datasets
+from sklearn.metrics import mean_absolute_error
 
 df = pd.read_csv('job_data_cleaned.csv')
 
@@ -81,7 +83,24 @@ print(error)
 parameters = {'n_estimators':range(10, 300, 10), 'criterion':('mse', 'mae'), 'max_features':('auto', 'sqrt', 'log2')}
 gs = GridSearchCV(estimator=regr,
              param_grid=parameters, scoring='neg_mean_absolute_error', cv=3)
-gs.fit(X_train, y_train)
-sorted(regr.cv_results_.keys())
+#gs.fit(X_train, y_train)
+#gs.best_score_
+#gs.best_estimator_
+best_rf = RandomForestRegressor(criterion='mae', max_features='log2', n_estimators=270)
+error = (np.mean(cross_val_score(best_rf, X, y, scoring='neg_mean_absolute_error', cv=3)))
 
+best_rf.fit(X_train, y_train)
 # Test ensembles
+tpred_rf = best_rf.predict(X_test)
+mean_absolute_error(y_test, tpred_rf)
+
+#Pickle the model
+pickl = {'model': best_rf}
+pickle.dump( pickl, open( 'model/model_file' + ".p", "wb" ) )
+
+#Load model
+file_name = "models/model_file.p"
+with open(file_name, 'rb') as pickled:
+    data = pickle.load(pickled)
+    model = data['model']
+
