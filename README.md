@@ -1,7 +1,7 @@
 # ds_jobs_salaries
 
 ## Project overview:
-Followed along from the youtube series listed below to make a salary predictor for data scientists using information of about 900 jobs from glassdoor
+Followed along from the youtube series listed below to make a salary predictor for data scientists using information of about 900 jobs scraped from glassdoor using selenium
 
 ## Resources:
 * Scraper Github: https://github.com/arapfaik/scraping-glassdoor-selenium
@@ -10,6 +10,6 @@ Followed along from the youtube series listed below to make a salary predictor f
 * Flask API: https://towardsdatascience.com/productionize-a-machine-learning-model-with-flask-and-heroku-8201260503d2
 
 ## Requeriments
-**Python version:** 3.9.7
-**Packages:** pandas, numpy, sklearn, matplotlib, seaborn, selenium, flask, json, pickle 
-**Easy setup:** Make a virtual env and from the project folder run ```pip install -r requirements.txt```
+**Python version:** 3.9.7  
+**Packages:** pandas, numpy, sklearn, matplotlib, seaborn, selenium, flask, json, pickle  
+**Easy setup:** Make a virtual env and from the project folder run ```pip install -r requirements.txt```  
